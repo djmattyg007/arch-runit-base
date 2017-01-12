@@ -11,14 +11,6 @@ echo 'Server = https://archive.archlinux.org/repos/'"${yesterdays_date}"'/$repo/
 echo "[info] content of arch mirrorlist file"
 cat /etc/pacman.d/mirrorlist
 
-# Update packages. Ignore filesystem package, as it's not desirable within a docker container.
-pacman -Syu --noconfirm --ignore filesystem
-
-# Set en_AU locale
-echo en_AU.UTF-8 UTF-8 > /etc/locale.gen
-locale-gen
-echo LANG="en_AU.UTF-8" > /etc/locale.conf
-
 # Upgrade pacman db to latest version
 pacman-db-upgrade
 
@@ -30,3 +22,11 @@ dirmngr < /dev/null
 
 # Refresh PGP keys for pacman
 pacman-key --refresh-keys
+
+# Update packages. Ignore filesystem package, as it's not desirable within a docker container.
+pacman -Syu --noconfirm --ignore filesystem
+
+# Set en_AU locale
+echo en_AU.UTF-8 UTF-8 > /etc/locale.gen
+locale-gen
+echo LANG="en_AU.UTF-8" > /etc/locale.conf
