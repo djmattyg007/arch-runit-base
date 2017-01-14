@@ -39,9 +39,10 @@ aur_build() {
     tar xvf ${tar_path} -C /tmp
     chmod a+rwx /tmp/${pkg}
 
-    # Build the package
+    echo "Building ${pkg}"
     su -c "cd /tmp/${pkg} && makepkg --nocolor" - makepkg-user
 
+    echo "Installing ${pkg}"
     pkg_filename=$(ls --color=never -1 /tmp/${pkg}/${pkg}-*-x86_64.pkg.tar.xz 2> /dev/null)
     if [[ -n "${pkg_filename}" ]]; then
         pacman -U /tmp/${pkg}/${pkg}-*-x86_64.pkg.tar.xz --noconfirm --noprogressbar --color=never
