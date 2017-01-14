@@ -43,7 +43,7 @@ aur_build() {
     su -c "cd /tmp/${pkg} && makepkg --nocolor" - makepkg-user
 
     echo "Installing ${pkg}"
-    pkg_filename=$(ls --color=never -1 /tmp/${pkg}/${pkg}-*-x86_64.pkg.tar.xz 2> /dev/null)
+    pkg_filename=$(ls --color=never -1 /tmp/${pkg}/${pkg}-*-x86_64.pkg.tar.xz 2> /dev/null || true)
     if [[ -n "${pkg_filename}" ]]; then
         pacman -U /tmp/${pkg}/${pkg}-*-x86_64.pkg.tar.xz --noconfirm --noprogressbar --color=never
     else
