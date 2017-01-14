@@ -12,8 +12,11 @@ echo 'Server = https://archive.archlinux.org/repos/'"${yesterdays_date}"'/$repo/
 echo "[info] content of arch mirrorlist file"
 cat /etc/pacman.d/mirrorlist
 
+# Do our best to disable color
+pacconf | grep -v '^Color$' | grep -v '^ILoveCandy$' > /etc/pacman.conf
+
 # Upgrade pacman db to latest version
-pacman-db-upgrade
+pacman-db-upgrade --nocolor
 
 # Delete any local keys
 rm -rf /root/.gnupg
@@ -22,10 +25,10 @@ rm -rf /root/.gnupg
 dirmngr < /dev/null
 
 # Refresh PGP keys for pacman
-pacman-key --refresh-keys
+pacman-key --refresh-keys --nocolor
 
 # Update packages. Ignore filesystem package, as it's not desirable within a docker container.
-pacman -Syu --noconfirm --noprogressbar --ignore filesystem
+pacman -Syu --noconfirm --noprogressbar --color=never --ignore filesystem
 
 # Set en_AU locale
 echo en_AU.UTF-8 UTF-8 > /etc/locale.gen
