@@ -14,6 +14,7 @@ cat /etc/pacman.d/mirrorlist
 
 # Do our best to disable color
 cat /etc/pacman.conf | grep -v '^Color$' | grep -v '^ILoveCandy$' > /tmp/pacman.conf
+sed -i -r 's/\[options\]/[options]\nVerbosePkgLists/' /tmp/pacman.conf
 mv /tmp/pacman.conf /etc/pacman.conf
 
 # Upgrade pacman db to latest version
