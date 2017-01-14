@@ -4,6 +4,7 @@
 set -e
 
 # Configure pacman with snapshot repository
+echo "Prepare pacman to use snapshot repository, refresh keys, upgrade system"
 source /root/pacman-init.sh
 
 # Create nobody user
