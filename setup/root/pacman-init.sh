@@ -8,6 +8,7 @@ yesterdays_date=$(date -d "yesterday" +%Y/%m/%d)
 
 # Now set pacman to use snapshot for packages for yesterday's date
 echo 'Server = https://archive.archlinux.org/repos/'"${yesterdays_date}"'/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+
 echo "[info] content of arch mirrorlist file"
 cat /etc/pacman.d/mirrorlist
 
@@ -24,7 +25,7 @@ dirmngr < /dev/null
 pacman-key --refresh-keys
 
 # Update packages. Ignore filesystem package, as it's not desirable within a docker container.
-pacman -Syu --noconfirm --ignore filesystem
+pacman -Syu --noconfirm --noprogressbar --ignore filesystem
 
 # Set en_AU locale
 echo en_AU.UTF-8 UTF-8 > /etc/locale.gen

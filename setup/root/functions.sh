@@ -4,7 +4,7 @@
 set -e
 
 pacman_cleanup() {
-    yes | pacman -Scc
+    yes | pacman -Scc --noprogressbar
     rm -rf /usr/share/locale/*
     rm -rf /usr/share/man/*
     rm -rf /tmp/*
@@ -13,7 +13,7 @@ pacman_cleanup() {
 aur_start() {
     # Install packages that all PKGBUILDs automatically assume are installed
     # Also install ed, it's a build-time dependency of runit
-    pacman -S --needed --noconfirm base-devel ed
+    pacman -S --needed --noconfirm --noprogressbar base-devel ed
     # Create "makepkg-user" user for building packages, as we can't and shouldn't
     # build packages as root (although we're effectively root all the time when
     # interacting with docker, so it's a bit of a moot point...)
@@ -25,9 +25,9 @@ aur_finish() {
     # Remove "makepkg-user" - we don't want unnecessary users lying around in the image
     userdel -r makepkg-user
     # Remove base-devel packages, except a few useful core packages
-    pacman -Ru --noconfirm $(pacman -Qgq base-devel | grep -v pacman | grep -v sed | grep -v grep | grep -v gzip)
+    pacman -Ru --noconfirm --noprogressbar $(pacman -Qgq base-devel | grep -v pacman | grep -v sed | grep -v grep | grep -v gzip)
     # Remove ed
-    pacman -Ru --noconfirm ed
+    pacman -Ru --noconfirm --noprogressbar ed
 }
 
 aur_build() {
@@ -41,5 +41,5 @@ aur_build() {
 
     # Build and install package
     su -c "cd /tmp/${pkg} && makepkg" - makepkg-user
-    pacman -U /tmp/${pkg}/${pkg}-*-x86_64.pkg.tar.xz --noconfirm
+    pacman -U /tmp/${pkg}/${pkg}-*-x86_64.pkg.tar.xz --noconfirm --noprogressbar
 }
