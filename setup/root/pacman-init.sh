@@ -13,7 +13,8 @@ echo "[info] content of arch mirrorlist file"
 cat /etc/pacman.d/mirrorlist
 
 # Do our best to disable color
-pacconf | grep -v '^Color$' | grep -v '^ILoveCandy$' > /etc/pacman.conf
+cat /etc/pacman.conf | grep -v '^Color$' | grep -v '^ILoveCandy$' > /tmp/pacman.conf
+mv /tmp/pacman.conf /etc/pacman.conf
 
 # Upgrade pacman db to latest version
 pacman-db-upgrade --nocolor
