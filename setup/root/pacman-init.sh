@@ -14,6 +14,7 @@ cat /etc/pacman.d/mirrorlist
 
 # Do our best to disable color
 cat /etc/pacman.conf | grep -v '^Color$' | grep -v '^ILoveCandy$' > /tmp/pacman.conf
+# Turn on verbose package lists
 sed -i -r 's/\[options\]/[options]\nVerbosePkgLists/' /tmp/pacman.conf
 mv /tmp/pacman.conf /etc/pacman.conf
 
@@ -27,12 +28,15 @@ dirmngr < /dev/null
 # Refresh PGP keys for pacman
 pacman-key --refresh-keys --nocolor
 
-echo "Update installed packages"
-pacman -Sy --noconfirm --noprogressbar --color=never
-# Update archlinux-keyring and pacman first, to ensure hooks run and keys are up to date
-pacman -S --noconfirm --noprogressbar --color=never archlinux-keyring pacman
-# Ignore filesystem package, as it's not desirable within a docker container.
-pacman -Syu --noconfirm --noprogressbar --color=never --ignore filesystem
+echo "Updating installed packages"
+# Download all package files first
+pacman -Syuw --noconfirm --noprogressbar --color=never
+# Delete old cert file due to bug in ca-certificates-utils package
+rm -f /etc/ssl/certs/ca-certificates.crt
+# Ignore filesystem package, as it's not desirable within a docker container
+pacman -Su --noconfirm --noprogressbar --color=never --ignore filesystem
+# Install additional packages
+pacman -S --noconfirm --noprogressbar --color=never openssl-1.0
 
 echo "Set en_AU locale"
 echo en_AU.UTF-8 UTF-8 > /etc/locale.gen
