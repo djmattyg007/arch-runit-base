@@ -6,6 +6,10 @@ set -e
 # Construct yesterday's date (cannot use todays as archive won't exist)
 yesterdays_date=$(date -d "yesterday" +%Y/%m/%d)
 
+echo "List installed packages"
+pacman -Q --color=never
+exit 1
+
 # Now set pacman to use snapshot for packages for yesterday's date
 echo 'Server = https://archive.archlinux.org/repos/'"${yesterdays_date}"'/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 

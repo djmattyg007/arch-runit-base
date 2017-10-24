@@ -1,7 +1,7 @@
-FROM binhex/arch-scratch:2017070401
+FROM archlinux/base:latest
 MAINTAINER djmattyg007
 
-ENV BASERUNITIMAGE_VERSION=2017.10.24-2
+ENV BASERUNITIMAGE_VERSION=2017.10.24-3
 
 # Add install bash script
 COPY setup/root/*.sh /root/
