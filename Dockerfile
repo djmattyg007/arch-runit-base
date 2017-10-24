@@ -1,7 +1,7 @@
-FROM binhex/arch-scratch:20160611-01
+FROM binhex/arch-scratch:2017070401
 MAINTAINER djmattyg007
 
-ENV BASERUNITIMAGE_VERSION=2017.10.24-1
+ENV BASERUNITIMAGE_VERSION=2017.10.24-2
 
 # Add install bash script
 COPY setup/root/*.sh /root/
