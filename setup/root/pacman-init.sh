@@ -4,7 +4,7 @@
 set -e
 
 # Construct yesterday's date (cannot use todays as archive won't exist)
-yesterdays_date=$(date -d "yesterday" +%Y/%m/%d)
+#yesterdays_date=$(date -d "yesterday" +%Y/%m/%d)
 
 #echo "List installed packages"
 #pacman -Q --color=never
@@ -39,6 +39,9 @@ yesterdays_date=$(date -d "yesterday" +%Y/%m/%d)
 
 #echo "List installed packages"
 #pacman -Q --color=never
+
+echo "Create pacman package cache folder"
+mkdir /var/cache/pacman/pkg
 
 echo "Updating currently installed packages"
 pacman -Sy --noconfirm --noprogressbar --color=never
