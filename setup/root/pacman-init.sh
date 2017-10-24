@@ -16,8 +16,8 @@ cat /etc/pacman.d/mirrorlist
 # Apparently grep isn't available at this point
 #cat /etc/pacman.conf | grep -v '^Color$' | grep -v '^ILoveCandy$' > /tmp/pacman.conf
 # Turn on verbose package lists
-sed -i -r 's/\[options\]/[options]\nVerbosePkgLists/' /tmp/pacman.conf
-mv /tmp/pacman.conf /etc/pacman.conf
+#sed -i -r 's/\[options\]/[options]\nVerbosePkgLists/' /tmp/pacman.conf
+#mv /tmp/pacman.conf /etc/pacman.conf
 
 echo "Re-prepare pacman GPG key stuff"
 # Upgrade pacman db to latest version
