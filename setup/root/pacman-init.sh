@@ -40,8 +40,8 @@ set -e
 #echo "List installed packages"
 #pacman -Q --color=never
 
-echo "Create pacman package cache folder"
-mkdir /var/cache/pacman/pkg
+cat /etc/pacman.conf
+exit 1
 
 echo "Updating currently installed packages"
 pacman -Sy --noconfirm --noprogressbar --color=never
