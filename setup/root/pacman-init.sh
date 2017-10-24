@@ -13,29 +13,38 @@ echo "[info] content of arch mirrorlist file"
 cat /etc/pacman.d/mirrorlist
 
 # Do our best to disable color
-cat /etc/pacman.conf | grep -v '^Color$' | grep -v '^ILoveCandy$' > /tmp/pacman.conf
+# Apparently grep isn't available at this point
+#cat /etc/pacman.conf | grep -v '^Color$' | grep -v '^ILoveCandy$' > /tmp/pacman.conf
 # Turn on verbose package lists
 sed -i -r 's/\[options\]/[options]\nVerbosePkgLists/' /tmp/pacman.conf
 mv /tmp/pacman.conf /etc/pacman.conf
 
 echo "Re-prepare pacman GPG key stuff"
 # Upgrade pacman db to latest version
-pacman-db-upgrade --nocolor
+#pacman-db-upgrade --nocolor
 # Delete any local keys
-rm -rf /root/.gnupg
+#rm -rf /root/.gnupg
 # Force re-creation of /root/.gnupg and start dirmngr
-dirmngr < /dev/null
+#dirmngr < /dev/null
 # Refresh PGP keys for pacman
+gpg --refresh-keys
+pacman-key --init && pacman-key --populate archlinux
 pacman-key --refresh-keys --nocolor
 
-echo "Updating installed packages"
-# Download all package files first
-pacman -Syuw --noconfirm --noprogressbar --color=never
-# Delete old cert file due to bug in ca-certificates-utils package
-rm -f /etc/ssl/certs/ca-certificates.crt
-# Ignore filesystem package, as it's not desirable within a docker container
-pacman -Su --noconfirm --noprogressbar --color=never --ignore filesystem
-# Install additional packages
+echo "Configure pacman GPG"
+echo "no-greeting" > /etc/pacman.d/gnupg/gpg.conf
+echo "no-permission-warning" >> /etc/pacman.d/gnupg/gpg.conf
+
+echo "Updating currently installed packages"
+pacman -Sy --noconfirm --noprogressbar --color=never
+pacman -S --noconfirm --noprogressbar --color=never archlinux-keyring
+pacman -Su --noconfirm --noprogressbar --color=never
+pacman -S --noconfirm --noprogressbar --color=never grep
+
+echo "Install base group packages with exclusions"
+pacman -S --noconfirm --noprogressbar --color=never $(pacman -Sgq base | grep -v -e 'filesystem|cryptsetup|device-mapper|iproute2|jfsutils|libsystemd|linux|lvm2|man-db|man-pages|mdadm|netctl|openresolv|pciutils|pcmciautils|reiserfsprogs|s-nail|systemd|systemd-sysvcompat|usbutils|xfsprogs')
+
+echo "Install additional packages"
 pacman -S --noconfirm --noprogressbar --color=never openssl-1.0
 
 echo "Set en_AU locale"
