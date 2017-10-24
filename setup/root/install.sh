@@ -14,6 +14,7 @@ source /root/functions.sh
 
 # Install any packages
 aur_start
+aur_build util-linux-aes
 aur_build runit
 aur_finish
 

@@ -38,14 +38,10 @@ echo "no-permission-warning" >> /etc/pacman.d/gnupg/gpg.conf
 echo "Updating currently installed packages"
 pacman -Sy --noconfirm --noprogressbar --color=never
 pacman -S --noconfirm --noprogressbar --color=never archlinux-keyring
-pacman -Su --noconfirm --noprogressbar --color=never
-pacman -S --noconfirm --noprogressbar --color=never grep
-
-echo "Install base group packages with exclusions"
-pacman -S --noconfirm --noprogressbar --color=never $(pacman -Sgq base | grep -v -e 'filesystem|cryptsetup|device-mapper|iproute2|jfsutils|libsystemd|linux|lvm2|man-db|man-pages|mdadm|netctl|openresolv|pciutils|pcmciautils|reiserfsprogs|s-nail|systemd|systemd-sysvcompat|usbutils|xfsprogs')
+pacman -Su --noconfirm --noprogressbar --color=never --ignore filesystem,cryptsetup,device-mapper,iproute2,jfsutils,libsystemd,linux,lvm2,man-db,man-pages,mdadm,netctl,openresolv,pciutils,pcmciautils,reiserfsprogs,s-nail,systemd,systemd-sysvcompat,usbutils,xfsprogs
 
 echo "Install additional packages"
-pacman -S --noconfirm --noprogressbar --color=never openssl-1.0
+pacman -S --noconfirm --noprogressbar --color=never grep openssl-1.0
 
 echo "Set en_AU locale"
 echo en_AU.UTF-8 UTF-8 > /etc/locale.gen
