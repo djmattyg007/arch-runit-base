@@ -12,6 +12,9 @@ source /root/user-init.sh
 
 source /root/functions.sh
 
+echo "List installed packages again"
+pacman -Q --color=never
+
 # Install any packages
 aur_start
 aur_build util-linux-aes
