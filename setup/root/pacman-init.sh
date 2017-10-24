@@ -40,8 +40,8 @@ set -e
 #echo "List installed packages"
 #pacman -Q --color=never
 
-cat /etc/pacman.conf
-exit 1
+echo "Remove package cleanup hook" # WTF?!?!? Why is this a thing????
+rm /usr/share/libalpm/hooks/package-cleanup.hook
 
 echo "Updating currently installed packages"
 pacman -Sy --noconfirm --noprogressbar --color=never
