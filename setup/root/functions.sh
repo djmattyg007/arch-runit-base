@@ -14,7 +14,7 @@ aur_start() {
     echo "Preparing to build AUR packages"
     # Install packages that all PKGBUILDs automatically assume are installed
     # Also install ed, it's a build-time dependency of runit
-    pacman -S --needed --noconfirm --noprogressbar --color=never base-devel ed
+    pacman -S --needed --noconfirm --noprogressbar --color=never --ignore systemd base-devel ed
     # Create "makepkg-user" user for building packages, as we can't and shouldn't
     # build packages as root (although we're effectively root all the time when
     # interacting with docker, so it's a bit of a moot point...)
@@ -40,6 +40,11 @@ aur_build() {
     curl -s -L -o ${tar_path} "https://aur.archlinux.org/cgit/aur.git/snapshot/${pkg}.tar.gz"
     tar xvf ${tar_path} -C /tmp
     chmod a+rwx /tmp/${pkg}
+
+    # hack to fix runit install
+    if [[ "${pkg}" == "runit" ]]; then
+        sed -i 's/util-linux-ng/util-linux/' /tmp/${pkg}/PKGBUILD
+    fi
 
     echo "Building ${pkg}"
     su -c "cd /tmp/${pkg} && makepkg --nocolor --noprogressbar" - makepkg-user
