@@ -13,6 +13,3 @@ usermod -a -G nobody nobody
 mkdir -p /home/nobody
 chown -R nobody:users /home/nobody
 chmod -R 775 /home/nobody
-
-# Ensure home directory is set for user "nobody"
-usermod -d /home/nobody nobody
