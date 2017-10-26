@@ -12,7 +12,7 @@ pacman -S --noconfirm --noprogressbar --color=never archlinux-keyring
 pacman -Su --noconfirm --noprogressbar --color=never
 
 echo "Install additional packages"
-# shadow is installed to be able to use the usermod command
+# shadow is installed to be able to use the groupadd, useradd and usermod commands
 pacman -S --noconfirm --noprogressbar --color=never grep openssl-1.0 shadow
 
 echo "Set en_AU locale"
