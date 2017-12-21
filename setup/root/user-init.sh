@@ -8,7 +8,8 @@ groupadd -g 99 nobody
 groupadd -g 100 users
 
 # The nobody user has also been removed from default Arch installs
-useradd -g users -G nobody -s /usr/bin/nologin -u 99 nobody
+mkdir /home/nobody
+useradd -g users -G nobody -M -d /home/nobody -s /usr/bin/nologin -u 99 nobody
 chown -R nobody:users /home/nobody
 chmod -R 775 /home/nobody
 
