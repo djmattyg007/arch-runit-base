@@ -3,8 +3,9 @@
 # Exit script if return code != 0
 set -e
 
-cat /etc/passwd
-cat /etc/group
+# For some bizarre reason these groups have been removed from default Arch installs
+groupadd -g 99 nobody
+groupadd -g 100 users
 
 # Add user "nobody" to primary group "users" (will remove any other group membership)
 usermod -g users nobody
