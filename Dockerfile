@@ -2,6 +2,7 @@ FROM archlinux/base:latest
 MAINTAINER djmattyg007
 
 ENV BASERUNITIMAGE_VERSION=2018.01.22-1
+ENV LANG=en_AU.UTF-8
 
 # Add install bash script
 COPY setup/root/*.sh /root/
@@ -11,7 +12,7 @@ RUN /root/install.sh && \
     rm -f /root/install.sh /root/pacman-init.sh /root/user-init.sh
 
 # Set environment variables for the nobody user's home directory, the terminal and the language
-ENV HOME=/home/nobody TERM=xterm LANG=en_AU.UTF-8
+ENV HOME=/home/nobody TERM=xterm
 
 COPY runsvinit /usr/bin/init
 ENTRYPOINT ["/usr/bin/init"]
