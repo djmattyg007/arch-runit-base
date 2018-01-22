@@ -1,7 +1,7 @@
 FROM archlinux/base:latest
 MAINTAINER djmattyg007
 
-ENV BASERUNITIMAGE_VERSION=2017.12.21-2
+ENV BASERUNITIMAGE_VERSION=2018.01.22-1
 
 # Add install bash script
 COPY setup/root/*.sh /root/
